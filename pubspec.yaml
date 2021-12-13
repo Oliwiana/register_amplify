@@ -1,0 +1,30 @@
+name: amplify
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies: 
+  amplify_auth_cognito: any
+  amplify_flutter: any
+  amplify_datastore: any
+  amplify_analytics_pinpoint: any
+  font_awesome_flutter: ^9.0.0
+  amplify_storage_s3: any
+  amplify_api: any
+  uuid: ^3.0.4
+  cupertino_icons: ^1.0.2
+  get: 4.5.1
+  flutter: 
+    sdk: flutter
+  flutter_localizations: 
+    sdk: flutter
+
+dev_dependencies: 
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+

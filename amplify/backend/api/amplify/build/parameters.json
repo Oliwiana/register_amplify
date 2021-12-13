@@ -1,0 +1,14 @@
+{
+    "AppSyncApiName": "amplify",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authamplifyfca7a569",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "AuthModeLastUpdated": "2021-12-06T15:28:18.700Z",
+    "S3DeploymentBucket": "amplify-amplify-staging-140957-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/2b4f16469d4b0ca4bcbf27f47dd09af46eda1c0d"
+}

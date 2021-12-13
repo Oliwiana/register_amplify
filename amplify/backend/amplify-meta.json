@@ -1,0 +1,119 @@
+{
+  "providers": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify-staging-140957-authRole",
+      "UnauthRoleArn": "arn:aws:iam::731598700196:role/amplify-amplify-staging-140957-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::731598700196:role/amplify-amplify-staging-140957-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-amplify-staging-140957-deployment",
+      "UnauthRoleName": "amplify-amplify-staging-140957-unauthRole",
+      "StackName": "amplify-amplify-staging-140957",
+      "StackId": "arn:aws:cloudformation:us-east-1:731598700196:stack/amplify-amplify-staging-140957/3192f9a0-569e-11ec-8550-0ee549109f1f",
+      "AmplifyAppId": "dtm521wnim6so"
+    }
+  },
+  "api": {
+    "amplify": {
+      "service": "AppSync",
+      "providerPlugin": "awscloudformation",
+      "output": {
+        "authConfig": {
+          "defaultAuthentication": {
+            "authenticationType": "API_KEY",
+            "apiKeyConfig": {
+              "apiKeyExpirationDays": 30,
+              "description": "api key description"
+            }
+          },
+          "additionalAuthenticationProviders": [
+            {
+              "authenticationType": "AWS_IAM"
+            },
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "authamplifyfca7a569"
+              }
+            }
+          ]
+        },
+        "GraphQLAPIIdOutput": "bpxw7g3oyrbovl3fqnqi2msesq",
+        "GraphQLAPIEndpointOutput": "https://3d6bjzubpbe6fhjr7w6g4bfan4.appsync-api.us-east-1.amazonaws.com/graphql",
+        "GraphQLAPIKeyOutput": "da2-hknsqj4nwna3llxx77ogu7gplm"
+      },
+      "lastPushTimeStamp": "2021-12-06T19:15:57.395Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "logicalId": "apiamplify"
+      }
+    }
+  },
+  "auth": {
+    "amplifya00552e8a00552e8": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false,
+      "frontendAuthConfig": {
+        "socialProviders": [],
+        "usernameAttributes": [],
+        "signupAttributes": [
+          "EMAIL"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyMinLength": 8,
+          "passwordPolicyCharacters": []
+        },
+        "mfaConfiguration": "ON",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "verificationMechanisms": [
+          "EMAIL"
+        ]
+      }
+    }
+  },
+  "function": {
+    "S3Trigger97644b0b": {
+      "service": "Lambda",
+      "providerPlugin": "awscloudformation",
+      "build": true,
+      "lastBuildTimeStamp": "2021-12-06T19:08:48.385Z",
+      "lastBuildType": "PROD",
+      "lastPackageTimeStamp": "2021-12-06T19:08:48.417Z",
+      "distZipFilename": "S3Trigger97644b0b-546348314c6731334e71-build.zip",
+      "s3Bucket": {
+        "deploymentBucketName": "amplify-amplify-staging-140957-deployment",
+        "s3Key": "amplify-builds/S3Trigger97644b0b-546348314c6731334e71-build.zip"
+      },
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/function/S3Trigger97644b0b-cloudformation-template.json",
+        "logicalId": "functionS3Trigger97644b0b"
+      },
+      "lastPushTimeStamp": "2021-12-06T19:08:50.577Z"
+    }
+  },
+  "storage": {
+    "s3a04b7662": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [
+        {
+          "category": "function",
+          "resourceName": "S3Trigger97644b0b",
+          "attributes": [
+            "Name",
+            "Arn",
+            "LambdaExecutionRole"
+          ]
+        }
+      ],
+      "lastPushTimeStamp": "2021-12-06T19:15:59.123Z",
+      "providerMetadata": {
+        "s3TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "logicalId": "storages3a04b7662"
+      }
+    }
+  }
+}

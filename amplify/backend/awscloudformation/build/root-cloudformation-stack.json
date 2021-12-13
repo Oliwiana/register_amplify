@@ -1,0 +1,245 @@
+{
+  "Description": "Root Stack for AWS Amplify Console",
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Parameters": {
+    "DeploymentBucketName": {
+      "Type": "String",
+      "Default": "DeploymentBucket",
+      "Description": "Name of the common deployment bucket provided by the parent stack"
+    },
+    "AuthRoleName": {
+      "Type": "String",
+      "Default": "AuthRoleName",
+      "Description": "Name of the common deployment bucket provided by the parent stack"
+    },
+    "UnauthRoleName": {
+      "Type": "String",
+      "Default": "UnAuthRoleName",
+      "Description": "Name of the common deployment bucket provided by the parent stack"
+    }
+  },
+  "Outputs": {
+    "Region": {
+      "Description": "CloudFormation provider root stack Region",
+      "Value": {
+        "Ref": "AWS::Region"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-Region"
+        }
+      }
+    },
+    "StackName": {
+      "Description": "CloudFormation provider root stack ID",
+      "Value": {
+        "Ref": "AWS::StackName"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-StackName"
+        }
+      }
+    },
+    "StackId": {
+      "Description": "CloudFormation provider root stack name",
+      "Value": {
+        "Ref": "AWS::StackId"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-StackId"
+        }
+      }
+    },
+    "AuthRoleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "AuthRole",
+          "Arn"
+        ]
+      }
+    },
+    "UnauthRoleArn": {
+      "Value": {
+        "Fn::GetAtt": [
+          "UnauthRole",
+          "Arn"
+        ]
+      }
+    },
+    "DeploymentBucketName": {
+      "Description": "CloudFormation provider root stack deployment bucket name",
+      "Value": {
+        "Ref": "DeploymentBucketName"
+      },
+      "Export": {
+        "Name": {
+          "Fn::Sub": "${AWS::StackName}-DeploymentBucketName"
+        }
+      }
+    },
+    "AuthRoleName": {
+      "Value": {
+        "Ref": "AuthRole"
+      }
+    },
+    "UnauthRoleName": {
+      "Value": {
+        "Ref": "UnauthRole"
+      }
+    }
+  },
+  "Resources": {
+    "DeploymentBucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": {
+          "Ref": "DeploymentBucketName"
+        },
+        "BucketEncryption": {
+          "ServerSideEncryptionConfiguration": [
+            {
+              "ServerSideEncryptionByDefault": {
+                "SSEAlgorithm": "AES256"
+              }
+            }
+          ]
+        }
+      },
+      "UpdateReplacePolicy": "Retain",
+      "DeletionPolicy": "Retain"
+    },
+    "AuthRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Deny",
+              "Principal": {
+                "Federated": "cognito-identity.amazonaws.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity"
+            }
+          ]
+        },
+        "RoleName": {
+          "Ref": "AuthRoleName"
+        }
+      }
+    },
+    "UnauthRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "",
+              "Effect": "Deny",
+              "Principal": {
+                "Federated": "cognito-identity.amazonaws.com"
+              },
+              "Action": "sts:AssumeRoleWithWebIdentity"
+            }
+          ]
+        },
+        "RoleName": {
+          "Ref": "UnauthRoleName"
+        }
+      }
+    },
+    "apiamplify": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+        "Parameters": {
+          "AppSyncApiName": "amplify",
+          "DynamoDBBillingMode": "PAY_PER_REQUEST",
+          "DynamoDBEnableServerSideEncryption": false,
+          "AuthCognitoUserPoolId": {
+            "Fn::GetAtt": [
+              "authamplifyfca7a569",
+              "Outputs.UserPoolId"
+            ]
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "S3DeploymentBucket": "amplify-amplify-staging-140957-deployment",
+          "S3DeploymentRootKey": "amplify-appsync-files/2b4f16469d4b0ca4bcbf27f47dd09af46eda1c0d",
+          "env": "staging"
+        }
+      }
+    },
+    "functionS3Trigger97644b0b": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/function/S3Trigger97644b0b-cloudformation-template.json",
+        "Parameters": {
+          "deploymentBucketName": "amplify-amplify-staging-140957-deployment",
+          "s3Key": "amplify-builds/S3Trigger97644b0b-546348314c6731334e71-build.zip",
+          "env": "staging"
+        }
+      }
+    },
+    "storages3a04b7662": {
+      "Type": "AWS::CloudFormation::Stack",
+      "Properties": {
+        "TemplateURL": "https://s3.amazonaws.com/amplify-amplify-staging-140957-deployment/amplify-cfn-templates/storage/cloudformation-template.json",
+        "Parameters": {
+          "bucketName": "amplify1c05b7fada4f47cba9fc2044ad5da7ee",
+          "selectedGuestPermissions": "",
+          "selectedAuthenticatedPermissions": "s3:PutObject,s3:GetObject,s3:ListBucket,s3:DeleteObject",
+          "unauthRoleName": {
+            "Ref": "UnauthRoleName"
+          },
+          "authRoleName": {
+            "Ref": "AuthRoleName"
+          },
+          "triggerFunction": "S3Trigger97644b0b",
+          "s3PrivatePolicy": "Private_policy_a04b7662",
+          "s3ProtectedPolicy": "Protected_policy_a04b7662",
+          "s3PublicPolicy": "Public_policy_a04b7662",
+          "s3ReadPolicy": "read_policy_a04b7662",
+          "s3UploadsPolicy": "Uploads_policy_a04b7662",
+          "authPolicyName": "s3_amplify_a04b7662",
+          "unauthPolicyName": "s3_amplify_a04b7662",
+          "AuthenticatedAllowList": "ALLOW",
+          "GuestAllowList": "DISALLOW",
+          "s3PermissionsAuthenticatedPrivate": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedProtected": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedPublic": "s3:PutObject,s3:GetObject,s3:DeleteObject",
+          "s3PermissionsAuthenticatedUploads": "s3:PutObject",
+          "s3PermissionsGuestPublic": "DISALLOW",
+          "s3PermissionsGuestUploads": "DISALLOW",
+          "functionS3Trigger97644b0bName": {
+            "Fn::GetAtt": [
+              "functionS3Trigger97644b0b",
+              "Outputs.Name"
+            ]
+          },
+          "functionS3Trigger97644b0bArn": {
+            "Fn::GetAtt": [
+              "functionS3Trigger97644b0b",
+              "Outputs.Arn"
+            ]
+          },
+          "functionS3Trigger97644b0bLambdaExecutionRole": {
+            "Fn::GetAtt": [
+              "functionS3Trigger97644b0b",
+              "Outputs.LambdaExecutionRole"
+            ]
+          },
+          "env": "staging"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Flutter Plugins" type="FlutterPluginsLibraryType">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_auth_cognito-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_api-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_flutter-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_storage_s3-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_analytics_pinpoint-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_core-0.2.10" />
+      <root url="file://$PROJECT_DIR$/../.pub-cache/hosted/pub.dartlang.org/amplify_datastore-0.2.10" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
